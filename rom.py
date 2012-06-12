@@ -15,6 +15,15 @@ SMILEY = ["00000000",
           "01100110",
           "00111100"]
 
+LINE = ["11111111",
+        "00000000",
+        "00000000",
+        "00000000",
+        "00000000",
+        "00000000",
+        "00000000",
+        "00000000"]
+
 
 def grouper(n, iterable, fillvalue=None):
     args = [iter(iterable)] * n
@@ -60,11 +69,15 @@ def frames(n, sarray):
         yield sarray[i:i + n]
 
 
+def flatten(lst):
+    return [item for sublist in lst for item in sublist]
+
+
 def main():
-    with open('smiley.hex', 'wb') as fout, open('smiley.txt', 'w') as debug:
-        repeatsmiley = [item for sublist in list(frames(8, list(islice(cycle(SMILEY), 263)))) for item in sublist]
-        writebytes(fout, repeatsmiley)
-        writetuples(debug, niceform(repeatsmiley))
+    with open('line.hex', 'wb') as fout, open('line.txt', 'w') as debug:
+        repeated = flatten(list(frames(8, list(islice(cycle(LINE), 263)))))
+        writebytes(fout, repeated)
+        writetuples(debug, niceform(repeated))
 
 
 if __name__ == "__main__":
